@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Health Advisor AI</title>
+  <style>
+    body {
+      background-color: #fefefe;
+      color: #1a1a1a;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      color: #0c3c60;
+    }
+    hr {
+      width: 90%;
+      margin: 20px 0;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    .chat-box {
+      width: 90%;
+      max-width: 500px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+    .message-input {
+      display: flex;
+      border: 2px solid rgba(0, 0, 0, 0.1);
+      border-radius: 20px;
+      padding: 10px 15px;
+      margin-top: 20px;
+      background-color: #f9f6f1;
+    }
+    .message-input input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #333;
+      font-size: 1rem;
+      outline: none;
+    }
+    .message-input button {
+      background-color: #cbe8f7;
+      border: none;
+      border-radius: 8px;
+      color: #0c3c60;
+      font-size: 1rem;
+      padding: 8px 12px;
+      margin-left: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .message-input button:hover {
+      background-color: #b3def3;
+    }
+    .chat-bubble {
+      max-width: 90%;
+      padding: 10px 15px;
+      margin: 10px 0;
+      border-radius: 12px;
+      line-height: 1.4;
+      white-space: pre-wrap;
+      font-size: 1rem;
+    }
+    .user-msg {
+      background-color: #d9effb;
+      align-self: flex-end;
+    }
+    .bot-msg {
+      background-color: #f4ede5;
+      align-self: flex-start;
+    }
+    .example {
+      margin-top: 20px;
+      text-align: center;
+      color: #888;
+      font-size: 0.95rem;
+    }
+    .back-button {
+      margin-top: 30px;
+      background-color: #cbe8f7;
+      border: none;
+      padding: 12px 24px;
+      font-size: 1rem;
+      color: #0c3c60;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .back-button:hover {
+      background-color: #b3def3;
+      transform: scale(1.03);
+    }
+  </style>
+</head>
+<body>
+  <h1>Health Advisor AI</h1>
+  <hr>
+  <div class="chat-box">
+    <div class="example">Example: What are affordable ways to manage a chronic condition?</div>
+    <div class="message-input">
+      <input type="text" placeholder="Message..." id="aiInput">
+      <button id="sendAI">➤</button>
+    </div>
+  </div>
+
+  <div class="back-buttons">
+    <button class="back-button" onclick="goBack()">← Back to Cost Model</button>
+    <button class="back-button" onclick="goHome()">← Back to Home</button>
+  </div>
+
+  <script>
+    const input = document.getElementById("aiInput");
+    const sendBtn = document.getElementById("sendAI");
+    const chatBox = document.querySelector(".chat-box");
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const cost = urlParams.get("cost");
+    const age = urlParams.get("age");
+    const isChronic = urlParams.get("isChronic");
+    const roomTier = urlParams.get("roomTier");
+    const stay = urlParams.get("stay");
+
+    const userProfile = `Age: ${age}, Chronic Condition: ${isChronic}, Room Tier: ${roomTier}, Stay Duration: ${stay} days, Estimated Cost: $${cost}`;
+    const chatHistory = [
+      {
+        role: "system",
+        content: `You are a helpful, friendly health advisor that gives practical, personalized, and specific advice based on the user's inputs below.
+
+Always:
+- Use only the variables provided (age, chronic condition status, room tier, stay duration, and estimated cost) to give advice.
+- Respond with exactly 2 concise bullet points offering ways to lower healthcare costs or make smarter choices.
+- Be empathetic, informative, and avoid repeating the question.`
+      },
+      {
+        role: "user",
+        content: `Here is my profile:
+- Age: ${age}
+- Chronic Condition: ${isChronic}
+- Room Tier: ${roomTier}
+- Stay Duration: ${stay} days
+- Estimated Cost: $${cost}`
+      }
+    ];
+
+    const introMsg = document.createElement("div");
+    introMsg.className = "chat-bubble bot-msg";
+    introMsg.textContent = `Hi! Based on your profile:\n${userProfile}\nAsk anything or get advice to lower your cost.`;
+    chatBox.insertBefore(introMsg, sendBtn.parentElement);
+
+    async function sendMessage() {
+      const prompt = input.value.trim();
+      if (!prompt) return;
+
+      const userMsg = document.createElement("div");
+      userMsg.className = "chat-bubble user-msg";
+      userMsg.textContent = prompt;
+      chatBox.insertBefore(userMsg, sendBtn.parentElement);
+
+      const botMsg = document.createElement("div");
+      botMsg.className = "chat-bubble bot-msg";
+      botMsg.textContent = "Thinking...";
+      chatBox.insertBefore(botMsg, sendBtn.parentElement);
+
+      input.value = "";
+      chatHistory.push({ role: "user", content: prompt });
+
+      try {
+        const res = await fetch("https://api.openai.com/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Authorization": "Bearer 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",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            model: "gpt-3.5-turbo",
+            messages: chatHistory,
+            temperature: 0.7
+          })
+        });
+
+        const data = await res.json();
+        const reply = data?.choices?.[0]?.message?.content || "No response.";
+        botMsg.textContent = reply;
+        chatHistory.push({ role: "assistant", content: reply });
+
+      } catch (err) {
+        botMsg.textContent = "Failed to connect.";
+      }
+    }
+
+    sendBtn.addEventListener("click", sendMessage);
+    input.addEventListener("keypress", function (e) {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+
+    function goBack() {
+      const query = `cost=${cost}&age=${age}&isChronic=${isChronic}&roomTier=${roomTier}&stay=${stay}`;
+      window.location.href = `CostModel.html?${query}`;
+    }
+
+    function goHome() {
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>

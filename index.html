@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NexHealth - Accurate Healthcare Cost Analysis</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      color: #0c1d35;
+      overflow: hidden;
+    }
+  
+    .background-logo {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      max-width: 80vw;
+      max-height: 80vh;
+      opacity: 0.08;
+      z-index: 0;
+      pointer-events: none;
+    }
+  
+    .page {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100vh;
+      padding: 40px 20px;
+      overflow-y: auto;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: all 0.5s ease-in-out;
+    }
+  
+    .page.active {
+      display: flex;
+      opacity: 1;
+      transform: scale(1);
+    }
+  
+    h1 {
+      font-size: 3rem;
+      margin: 20px 0 10px;
+    }
+  
+    h2 {
+      font-size: 1.5rem;
+      color: #333;
+      margin-bottom: 40px;
+    }
+  
+    .icons {
+      display: flex;
+      justify-content: center;
+      gap: 100px;
+      margin: 40px auto 80px;
+    }
+  
+    .icons img {
+      width: 80px;
+      opacity: 0.5;
+    }
+  
+    .question {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 30px;
+      margin-top: 400px;
+      color: #0c1d35;
+    }
+  
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+    }
+  
+    .buttons button,
+    .back-button,
+    #runModel {
+      background-color: #d6e2f5; /* Light blue */
+      border: 2px solid #0c1d35;
+      border-radius: 12px;
+      color: #0c1d35;
+      padding: 16px 32px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .nav-button {
+        background-color: #d6e2f5;
+        border: 2px solid #0c1d35;
+        border-radius: 12px;
+        color: #0c1d35;
+        padding: 16px 32px;
+        font-size: 1.2rem;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.4s ease-in-out;
+    }
+
+    .nav-button:hover {
+        background-color: #0c1d35;
+        color: #ffffff;
+        transform: scale(1.05);
+    }
+
+  
+    .buttons button:hover,
+    .back-button:hover,
+    #runModel:hover {
+      background-color: #0c1d35;
+      color: #ffffff;
+      transform: scale(1.05);
+    }
+  
+    .form-container,
+    .output-box {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 400px;
+      margin: 20px 0;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+      color: #0c1d35;
+    }
+  
+    .form-container label {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 5px;
+      font-size: 1rem;
+      color: #0c1d35;
+    }
+  
+    .form-container input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      font-size: 1rem;
+      background-color: #f0f0f0;
+      color: #0c1d35;
+    }
+  
+    .output-box {
+      font-size: 1.2rem;
+      background-color: #eef3fb;
+    }
+  
+    .chat-box {
+      width: 90%;
+      max-width: 500px;
+      margin: auto;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+  
+    .message-input {
+      display: flex;
+      border: 2px solid rgba(0, 0, 0, 0.1);
+      border-radius: 20px;
+      padding: 10px 15px;
+      margin-top: 20px;
+      background-color: #ffffff;
+    }
+  
+    .message-input input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #0c1d35;
+      font-size: 1rem;
+      outline: none;
+    }
+  
+    .message-input button {
+      background: none;
+      border: none;
+      color: #0c1d35;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+  
+    .example {
+      margin-top: 20px;
+      text-align: center;
+      color: #666;
+      font-size: 0.95rem;
+    }
+  
+    .chat-bubble {
+      max-width: 90%;
+      padding: 10px 15px;
+      margin: 10px 0;
+      border-radius: 12px;
+      line-height: 1.4;
+      white-space: pre-wrap;
+      color: #0c1d35;
+    }
+  
+    .user-msg {
+      background-color: #d6e2f5;
+      align-self: flex-end;
+    }
+  
+    .bot-msg {
+      background-color: #e2eafc;
+      align-self: flex-start;
+    }
+
+    .header-block {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 5vh;
+        margin-bottom: 60px;
+        position: relative;
+        z-index: 2;
+    }
+
+    .main-logo {
+        width: 100vw;           /* Large, responsive size based on screen width */
+        max-width: 800px;      /* Cap size on large screens */
+        height: auto;
+        display: block;
+        margin-bottom: 10px;
+        filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15)); /* Optional: makes it pop */
+    }
+
+
+    .main-title {
+        font-size: 6vw;
+        font-weight: bold;
+        color: #0c1d35;
+        margin-top: 0;
+        margin-bottom: 5px;
+        line-height: 1.1;
+        text-align: center;
+    }
+
+    .subtitle {
+        font-size: 2.2vw;
+        color: #555;
+        margin-top: -5px;
+        text-align: center;
+    }
+
+    .arrow-down {
+        font-size: 3rem;
+        color: #0c1d35;
+        margin: 10px 0 30px; /* ⬅️ Moves arrow up a bit */
+        animation: pulse 1.5s infinite;
+        cursor: pointer;
+    }
+
+    @keyframes pulse {
+        0% { transform: translateY(0); opacity: 1; }
+        50% { transform: translateY(10px); opacity: 0.6; }
+        100% { transform: translateY(0); opacity: 1; }
+    }
+
+    .purpose-section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 50px;
+        padding: 60px 40px;
+        max-width: 1200px;
+        margin: 0 auto;
+        flex-wrap: wrap;
+    }
+
+    .purpose-img {
+        width: 100%;
+        max-width: 400px;
+        height: auto;
+        border-radius: 12px;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    }
+
+    .purpose-text {
+        max-width: 600px;
+        text-align: left;
+    }
+
+    .purpose-text h2 {
+        font-size: 2rem;
+        margin-bottom: 15px;
+        color: #0c1d35;
+    }
+
+    .purpose-text p {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: #333;
+    }
+
+  </style>
+  
+  
+</head>
+<body>
+  <img src="NexHealth.png" class="background-logo" alt="NexHealth Logo" />
+
+  <div id="home" class="page active">
+    <div class="header-block">
+      <img src="NexHealth.png" alt="NexHealth Logo" class="main-logo">
+      <h1 class="main-title">NexHealth</h1>
+      <h2 class="subtitle">Accurate Healthcare Cost Analysis</h2>
+    </div>
+
+    <div class="arrow-down" onclick="scrollToButtons()">&#x25BC;</div>
+
+    <div class="purpose-section">
+        <img src="Healthpg.jpg" alt="Purpose Image" class="purpose-img">
+        <div class="purpose-text">
+          <h2>Our Mission</h2>
+          <p>
+            NexHealth aims to simplify healthcare decision-making by offering AI-powered risk models and personalized financial advisory tools. Our platform helps individuals and providers understand costs, evaluate risk, and plan smarter — all through a clean, intuitive interface.
+          </p>
+        </div>
+    </div>
+      
+  
+    <div class="icons">
+      <img src="dot-grid-icon.png" alt="">
+      <img src="line-chart-icon.png" alt="">
+      <img src="bar-chart-icon.png" alt="">
+    </div>
+  
+    <div class="question">What can we assist with?</div>
+    <div class="buttons" id="cta-buttons">
+       <a href="CostModel.html" class="nav-button">Cost Model</a>
+       <a href="HealthBot.html" class="nav-button">Health Advisor</a>
+    </div>
+      
+  </div>
+   
+  <div id="riskModel" class="page">
+    <h1>Risk Model</h1>
+    <h2>Enter the feature values, then run the model.</h2>
+    <div class="form-container">
+      <label for="creditScore">Credit Score</label>
+      <input type="number" id="creditScore" value="720">
+      <label for="loanAmount">Loan Amount</label>
+      <input type="number" id="loanAmount" value="15000">
+      <label for="volatility">Market Volatility</label>
+      <input type="number" id="volatility" value="0.3" step="0.01">
+      <label for="income">Income</label>
+      <input type="number" id="income" value="85000">
+      <button id="runModel">Run Model</button>
+    </div>
+    <h2>Output</h2>
+    <div class="output-box" id="output">Risk Score: 0.57</div>
+    <button class="back-button" onclick="navigateTo('home')">Back</button>
+  </div>
+
+  <div id="financeAdvisor" class="page">
+    <h1>Finance Advisor AI</h1>
+    <hr style="width: 90%; margin: 20px 0; border: 1px solid rgba(255,255,255,0.2);">
+    <div class="chat-box">
+      <div class="example">Example: I make $75k and want to buy a house—what’s the risk?</div>
+      <div class="message-input">
+        <input type="text" placeholder="Message..." id="aiInput">
+        <button id="sendAI">➤</button>
+      </div>
+    </div>
+    <button class="back-button" onclick="navigateTo('home')" style="margin-top: 30px;">Back</button>
+  </div>
+
+  <script>
+    function navigateTo(pageId) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+    }
+
+    function animateButton(btn, pageId) {
+      btn.style.transition = 'all 0.3s ease';
+      btn.style.transform = 'scale(1.05)';
+      setTimeout(() => navigateTo(pageId), 300);
+    }
+    
+    function scrollToButtons() {
+      const buttonsSection = document.getElementById("cta-buttons");
+      buttonsSection.scrollIntoView({ behavior: "smooth" });
+    }
+
+    document.getElementById("runModel").addEventListener("click", function () {
+      document.getElementById("output").textContent = "Risk Score: 69";
+    });
+
+    document.getElementById("sendAI").addEventListener("click", async function () {
+      const input = document.getElementById("aiInput");
+      const chatBox = document.querySelector(".chat-box");
+
+      const userMsg = document.createElement("div");
+      userMsg.className = "chat-bubble user-msg";
+      userMsg.textContent = input.value;
+      chatBox.insertBefore(userMsg, chatBox.lastElementChild.previousElementSibling);
+
+      const botMsg = document.createElement("div");
+      botMsg.className = "chat-bubble bot-msg";
+      botMsg.textContent = "Thinking...";
+      chatBox.insertBefore(botMsg, chatBox.lastElementChild.previousElementSibling);
+
+      try {
+        const res = await fetch("https://api.openai.com/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Authorization": "Bearer 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",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            model: "gpt-3.5-turbo",
+            messages: [
+              { role: "system", content: "You are a helpful financial advisor. Answer in clear, simple language a 12-year-old could understand." },
+              { role: "user", content: input.value }
+            ],
+            temperature: 0.7
+          })
+        });
+
+        const data = await res.json();
+        botMsg.textContent = data?.choices?.[0]?.message?.content || "No response.";
+      } catch (err) {
+        botMsg.textContent = "Failed to connect.";
+      }
+
+      input.value = "";
+    });
+  </script>
+</body>
+</html>
