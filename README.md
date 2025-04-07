@@ -15,10 +15,10 @@
 
 ##  Technologies Used
 
-- HTML / CSS / JavaScript / 
-- Chart.js for visualizations  
-- OpenAI GPT for chatbot responses  
-- Hosted via [Netlify](https://www.netlify.com/) / [GitHub Pages](https://pages.github.com/) / [Vercel](https://vercel.com/)
+- **HTML / CSS / JavaScript** – Frontend and logic
+- **Chart.js** – Visualize cost distribution
+- **OpenAI GPT (LLM)** – AI-powered health advisor chatbot
+- **Machine Learning-based Cost Estimator** – Custom risk/cost model logic built from common healthcare cost factors
 
 ##  File Structure
 
