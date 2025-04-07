@@ -20,6 +20,11 @@
 - **OpenAI GPT (LLM)** – AI-powered health advisor chatbot
 - **Machine Learning-based Cost Estimator** – Custom risk/cost model logic built from common healthcare cost factors
 
+##  ML Model/AI Performance
+
+- **XGBoost** significantly outperformed standard econometric Linear Regression, with R^2 of .7 to .55 respectively identifying the aforementioned 4 main predictiction variables.
+- **AI Health Advisor** using loaded in results from the ML model is finetuned to give advice specific to user inputs
+
 ##  File Structure
 
 ```
