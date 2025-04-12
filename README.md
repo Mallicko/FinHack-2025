@@ -20,7 +20,7 @@
 
 - **HTML / CSS / JavaScript** – Frontend and logic
 - **Chart.js** – Visualize cost distribution
-- **OpenAI GPT (LLM)** – AI-powered health advisor chatbot
+- **OpenAI GPT (LLM)** – AI-powered health advisor chatbot built on the 4o model
 - **Machine Learning-based Cost Estimator** – Custom risk/cost model logic built from common healthcare cost factors
 
 ##  ML Model/AI Performance
