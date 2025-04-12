@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - NexHealth</title>
+  <style>
+    body {
+      background-color: #f9f9f9;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    h1 {
+      margin-bottom: 20px;
+      color: #0c1d35;
+    }
+    .form-box {
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      max-width: 400px;
+      width: 90%;
+    }
+    .form-box label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    .form-box input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+    .form-box button {
+        width: 100%;
+        margin-top: 20px;
+        padding: 12px;
+        border: none;
+      background-color: #3681e9;
+      color: white;
+      font-size: 1rem;
+        border-radius: 8px;
+        cursor: pointer;
+        box-sizing: border-box;
+    }
+    .form-box button:hover {
+      background-color: #163660;
+    }
+    .form-box .link {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+    .form-box .link a {
+      color: #0c1d35;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to NexHealth</h1>
+  <div class="form-box">
+    <label for="email">Email</label>
+    <input type="email" id="email" placeholder="Enter your email">
+
+    <label for="password">Password</label>
+    <input type="password" id="password" placeholder="Enter your password">
+
+    <button onclick="login()">Login</button>
+    <button onclick="signUp()">Sign Up</button>
+
+    <div class="link">
+      <a href="index.html">← Back to Home</a>
+    </div>
+  </div>
+
+  <!-- Firebase SDKs assumed to be loaded in firebase-setup.js -->
+  <script src="firebase-setup.js"></script>
+  <script>
+    function login() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      firebase.auth().signInWithEmailAndPassword(email, password)
+        .then(user => {
+          alert("Logged in successfully!");
+          window.location.href = "index.html";
+        })
+        .catch(error => alert(error.message));
+    }
+
+    function signUp() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then(user => {
+          alert("Account created successfully!");
+          window.location.href = "index.html";
+        })
+        .catch(error => alert(error.message));
+    }
+  </script>
+</body>
+</html>

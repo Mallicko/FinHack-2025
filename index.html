@@ -3,6 +3,73 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-analytics-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-messaging-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-remote-config-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-performance-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-functions-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-analytics-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-check-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-dynamic-links-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-in-app-messaging-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-installations-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-analytics-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-analytics-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-messaging-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-remote-config-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-performance-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-functions-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-analytics-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-check-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-dynamic-links-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-in-app-messaging-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-installations-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-analytics-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script> 
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-analytics-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-messaging-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-remote-config-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-performance-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-functions-compat.js"></script>
+  <script>
+    // Import the functions you need from the SDKs you need
+  import { initializeApp } from "firebase/app";
+  import { getAnalytics } from "firebase/analytics";
+  import { getAuth } from "firebase/auth";
+  import { getFirestore } from "firebase/firestore";
+  const firebaseConfig = {
+    apiKey: "AIzaSyCvQhdGbvWpcXRthNYrjfqpd_cn7csn92c",
+    authDomain: "nexhealth-48121.firebaseapp.com",
+    projectId: "nexhealth-48121",
+    storageBucket: "nexhealth-48121.firebasestorage.app",
+    messagingSenderId: "645449041410",
+    appId: "1:645449041410:web:cf2e7a992ac851c991891b",
+    measurementId: "G-022Q9BWXF1"
+  };
+
+// Initialize Firebase
+  const analytics = getAnalytics(app);
+  
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+  </script>
   <title>NexHealth - Accurate Healthcare Cost Analysis</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -316,6 +383,17 @@
   
 </head>
 <body>
+  <div class="top-bar" style="
+  position: fixed;
+  top: 10px;
+  right: 20px;
+  z-index: 999;
+">
+  <button onclick="window.location.href='login.html'" 
+    style="background-color: #307ce7; color: white; border: none; padding: 10px 20px; font-size: 1rem; border-radius: 8px; cursor: pointer;">
+    Sign In / Sign Up
+  </button>
+</div>
   <img src="NexHealth.png" class="background-logo" alt="NexHealth Logo" />
 
   <div id="home" class="page active">
@@ -445,5 +523,6 @@
       input.value = "";
     });
   </script>
+  <script src="firebase-setup.js"></script>
 </body>
 </html>
