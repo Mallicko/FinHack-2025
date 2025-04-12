@@ -13,6 +13,9 @@
 -  **Visual Insights**  
   See where you stand on a national cost distribution graph.
 
+-  **Log In Page**
+  Allows user to register or login to access previously entered data and chat history.
+
 ##  Technologies Used
 
 - **HTML / CSS / JavaScript** – Frontend and logic
