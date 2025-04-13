@@ -1,11 +1,11 @@
 # NexHealth
 
-**NexHealth** is a web-based healthcare cost estimation and advisory tool that helps users better understand and manage their potential medical expenses using intelligent modeling and AI-powered guidance.
+**NexHealth** is a web-based healthcare cost estimation and advisory tool that helps users understand and manage their potential medical expenses using intelligent modeling and AI-powered guidance.
 
 ##  Features
 
 -  **Cost Model Page**  
-  Input your details (age, chronic condition status, room tier, stay duration) to estimate your healthcare costs using a realistic model.
+  Input your details (age, chronic condition status, room tier, and stay duration) to estimate your healthcare costs using a realistic model.
 
 -  **Health Advisor AI**  
   Get personalized advice based on your profile. Responses are concise, human-friendly, and actionable.
@@ -14,7 +14,7 @@
   See where you stand on a national cost distribution graph.
 
 -  **Log In Page**
-  Allows user to register or login to access previously entered data and chat history.
+  Allows user to register or log in to access previously entered data and chat history.
 
 ##  Technologies Used
 
@@ -26,7 +26,7 @@
 ##  ML Model/AI Performance
 
 - **XGBoost** significantly outperformed standard econometric Linear Regression, with R^2 of .7 to .55 respectively identifying the aforementioned 4 main predictiction variables.
-- **AI Health Advisor** using loaded in results from the ML model is finetuned to give advice specific to user inputs
+- **AI Health Advisor** using loaded-in results from the ML model is fine-tuned to give advice specific to user inputs
 
 ##  File Structure
 
